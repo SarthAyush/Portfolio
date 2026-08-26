@@ -2,7 +2,7 @@
 
 > A modern, responsive, and interactive developer portfolio built with React, Framer Motion, and Salesforce-inspired design.
 
-🌐 **Live Portfolio:** [Add your deployed Vercel URL here]
+🌐 **Live Portfolio:** https://portfolio-omega-khaki-52.vercel.app/
 
 ---
 
