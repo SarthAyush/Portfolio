@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send, IdCard, Trophy } from "lucide-react";
-import { SiSalesforce, SiLinkedin } from "react-icons/si";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
