@@ -6,8 +6,7 @@ import {
   Wrench,
   Sparkles,
   Zap,
-  Database,
-  Braces,
+ 
 } from "lucide-react";
 
 const Skills = () => {

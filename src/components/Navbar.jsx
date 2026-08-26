@@ -6,7 +6,7 @@ import {
   Cloud,
   Moon,
   Sun,
-  Sparkles,
+  
 } from "lucide-react";
 import { Link } from "react-scroll";
 
@@ -93,7 +93,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         handleSectionDetection
       );
     };
-  }, []);
+  });
 
 
   /* =========================================================

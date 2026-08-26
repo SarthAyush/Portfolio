@@ -10,7 +10,7 @@ import {
   Sparkles,
   Database,
   ShoppingBag,
-  ExternalLink,
+  
   Trophy,
   Bot,
   ArrowUpRight,
