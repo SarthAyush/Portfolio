@@ -1,70 +1,115 @@
-# Getting Started with Create React App
+# ☁️ Sarthak Saxena | Salesforce Developer Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> A modern, responsive, and interactive developer portfolio built with React, Framer Motion, and Salesforce-inspired design.
 
-## Available Scripts
+🌐 **Live Portfolio:** [Add your deployed Vercel URL here]
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This repository contains my personal developer portfolio, designed to showcase my experience, technical skills, projects, certifications, community involvement, and professional journey as a Salesforce Developer.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The portfolio combines a clean Salesforce-inspired visual language with modern web development techniques, smooth animations, responsive layouts, and interactive UI components.
 
-### `npm test`
+The goal is to create more than a traditional resume website: a digital representation of my journey as a Salesforce Developer and Trailblazer.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🚀 Highlights
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- 🎨 Salesforce Lightning-inspired UI
+- ⚡ React-based component architecture
+- 🎬 Smooth Framer Motion animations
+- 📱 Fully responsive design
+- 🌙 Light/Dark mode
+- 🧭 Interactive navigation
+- 📊 Scroll progress indicator
+- 💼 Professional experience timeline
+- 🛠️ Technical skills showcase
+- 🚀 Featured Salesforce project
+- 🏆 Hackathon achievement showcase
+- 🖼️ Interactive image gallery
+- 🔍 Full-screen image lightbox
+- 📩 Contact form
+- 📄 Resume download
+- ☁️ Salesforce-inspired visual elements
+- ⚙️ Mobile performance optimizations
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# 🛠️ Tech Stack
 
-### `npm run eject`
+### Frontend
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+| Technology | Purpose |
+|---|---|
+| React.js | Frontend framework |
+| JavaScript (ES6+) | Application logic |
+| Framer Motion | Animations and transitions |
+| Lucide React | UI icons |
+| React Scroll | Smooth section navigation |
+| CSS3 | Styling and responsive design |
+| HTML5 | Page structure |
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Salesforce Technologies
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The portfolio highlights experience with:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Apex
+- Lightning Web Components (LWC)
+- Salesforce Flows
+- Agentforce
+- Data Cloud
+- REST APIs
+- Lightning App Builder
+- B2C Commerce
+- Salesforce Automation
 
-## Learn More
+### Development Tools
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Git
+- GitHub
+- Visual Studio Code
+- Salesforce CLI
+- Vercel
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+# 📁 Project Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```text
+portfolio/
+│
+├── public/
+│   ├── images/
+│   │   ├── headshot.png
+│   │   ├── Arena.png
+│   │   ├── with trophy.png
+│   │   ├── at Stage.png
+│   │   └── Community Session.jpg
+│   │
+│   └── Sarthak_Saxena_Resume_A.pdf
+│
+├── src/
+│   │
+│   ├── components/
+│   │   ├── Navbar.jsx
+│   │   ├── Hero.jsx
+│   │   ├── About.jsx
+│   │   ├── Skills.jsx
+│   │   ├── Experience.jsx
+│   │   ├── Projects.jsx
+│   │   ├── Gallery.jsx
+│   │   ├── Contact.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Loader.jsx
+│   │   └── ScrollProgress.jsx
+│   │
+│   ├── App.js
+│   ├── App.css
+│   └── index.js
+│
+├── package.json
+├── package-lock.json
+└── README.md
