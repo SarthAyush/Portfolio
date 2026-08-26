@@ -1,0 +1,118 @@
+:root {
+  /* Salesforce Lightning Design System Colors */
+  --sf-blue: #0176D3;
+  --sf-blue-dark: #032D60;
+  --sf-blue-light: #1B96FF;
+  --sf-cloud-white: #F3F6F9;
+  --sf-orange: #FE9339;
+  --sf-green: #04844B;
+  --sf-text-dark: #16325C;
+  --sf-text-gray: #706E6B;
+  --sf-card-bg: #FFFFFF;
+  --sf-shadow: rgba(1, 118, 211, 0.15);
+  --sf-gradient: linear-gradient(135deg, #032D60 0%, #0176D3 50%, #1B96FF 100%);
+
+  --font-main: 'Poppins', 'Salesforce Sans', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-main);
+}
+
+body {
+  background: var(--sf-cloud-white);
+  color: var(--sf-text-dark);
+  overflow-x: hidden;
+}
+
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* ===== Mobile Responsiveness ===== */
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none !important;
+  }
+  .mobile-icon {
+    display: flex !important;
+    cursor: pointer;
+  }
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+  }
+  .about-grid img {
+    max-width: 220px;
+    margin: 0 auto;
+  }
+  section {
+    padding: 4rem 1.2rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 2.2rem !important; }
+  h2 { font-size: 1.7rem !important; }
+}
+:root {
+  --sf-blue: #0176D3;
+  --sf-blue-dark: #032D60;
+  --sf-blue-light: #1B96FF;
+  --sf-cloud-white: #F3F6F9;
+  --sf-orange: #FE9339;
+  --sf-text-dark: #16325C;
+  --sf-text-gray: #706E6B;
+  --sf-card-bg: #FFFFFF;
+  --sf-shadow: rgba(1, 118, 211, 0.15);
+}
+
+[data-theme="dark"] {
+  --sf-cloud-white: #0D1B2A;
+  --sf-text-dark: #E8F0FE;
+  --sf-text-gray: #A0AEC0;
+  --sf-card-bg: #16283F;
+  --sf-shadow: rgba(27, 150, 255, 0.25);
+}
+
+body {
+  transition: background 0.3s ease, color 0.3s ease;
+}
