@@ -38,7 +38,7 @@ function App() {
     <>
       <AnimatePresence>{loading && <Loader />}</AnimatePresence>
       {!loading && (
-        <div>
+        <div className="app-container">
           <ScrollProgress />
           <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
           <Hero />

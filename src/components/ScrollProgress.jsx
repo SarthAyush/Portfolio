@@ -50,7 +50,7 @@ const ScrollProgress = () => {
       skills: "Skills",
       experience: "Experience",
       projects: "Projects",
-      gallery: "Gallery",
+      gallery: "Moments",
       contact: "Contact",
     };
 
