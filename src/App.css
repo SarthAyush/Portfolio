@@ -1016,3 +1016,49 @@ html {
   }
 
 }
+
+/* =========================================================
+   SYSTEM DESIGN: GPU SMOOTHING & PERFORMANCE OPTIMIZATIONS
+========================================================= */
+
+/* Hardware acceleration for animated elements */
+.hero-mouse-light,
+.hero-aurora,
+.about-bg-glow,
+.projects-bg-glow,
+.skills-glow,
+.experience-glow,
+.contact-glow,
+.footer-glow,
+.hero-cloud,
+.gallery-card,
+.project-card,
+.about-profile {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Off-screen layout skipping for butter-smooth scrolling */
+#skills,
+#experience,
+#projects,
+#gallery,
+#contact {
+  content-visibility: auto;
+  contain-intrinsic-size: 1000px;
+}
+
+/* Lightweight particles GPU composition */
+[class*="-particle"] {
+  will-change: transform;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  contain: strict;
+}
+
+/* Image rendering optimizations */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  content-visibility: auto;
+}

@@ -74,7 +74,7 @@ const Skills = () => {
 
       <div className="skills-particles">
 
-        {[...Array(20)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <span
             key={i}
             className={`skills-particle skills-particle-${i}`}

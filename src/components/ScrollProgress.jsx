@@ -1,67 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   motion,
   useScroll,
   useSpring,
-  useTransform,
 } from "framer-motion";
 import { Cloud } from "lucide-react";
 
 const ScrollProgress = () => {
   const { scrollYProgress } = useScroll();
 
-  /*
-   * The progress is controlled ONLY by page scrolling.
-   * No independent animation is applied to the progress itself.
-   */
   const progress = useSpring(scrollYProgress, {
-    stiffness: 180,
-    damping: 35,
-    mass: 0.25,
+    stiffness: 200,
+    damping: 30,
+    restDelta: 0.001,
   });
 
-  /* =========================================================
-     PERCENTAGE
-  ========================================================= */
-
   const [percentage, setPercentage] = useState(0);
+  const [showStatus, setShowStatus] = useState(false);
+  const [currentSection, setCurrentSection] = useState("Home");
+  const lastPercentRef = useRef(0);
+  const rafId = useRef(null);
 
   useEffect(() => {
     const unsubscribe = scrollYProgress.on("change", (value) => {
-      setPercentage(Math.round(value * 100));
+      const p = Math.round(value * 100);
+      if (Math.abs(p - lastPercentRef.current) >= 2 || p === 0 || p === 100) {
+        lastPercentRef.current = p;
+        setPercentage(p);
+      }
     });
 
     return () => unsubscribe();
   }, [scrollYProgress]);
-
-  /* =========================================================
-     SHOW STATUS AFTER USER STARTS SCROLLING
-  ========================================================= */
-
-  const [showStatus, setShowStatus] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowStatus(window.scrollY > 100);
-    };
-
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  /* =========================================================
-     CURRENT SECTION
-  ========================================================= */
-
-  const [currentSection, setCurrentSection] =
-    useState("Home");
 
   useEffect(() => {
     const sections = [
@@ -84,266 +54,113 @@ const ScrollProgress = () => {
       contact: "Contact",
     };
 
-    const updateSection = () => {
-      const position =
-        window.scrollY +
-        window.innerHeight * 0.35;
+    const handleScroll = () => {
+      if (rafId.current) return;
 
-      let active = "home";
+      rafId.current = requestAnimationFrame(() => {
+        rafId.current = null;
+        const scrollY = window.scrollY;
+        setShowStatus(scrollY > 120);
 
-      sections.forEach((id) => {
-        const element =
-          document.getElementById(id);
+        const position = scrollY + window.innerHeight * 0.35;
+        let active = "home";
 
-        if (!element) return;
-
-        if (position >= element.offsetTop) {
-          active = id;
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const id = sections[i];
+          const el = document.getElementById(id);
+          if (el && position >= el.offsetTop) {
+            active = id;
+            break;
+          }
         }
-      });
 
-      setCurrentSection(labels[active]);
+        setCurrentSection(labels[active] || "Home");
+      });
     };
 
-    updateSection();
-
-    window.addEventListener(
-      "scroll",
-      updateSection,
-      { passive: true }
-    );
-
-    window.addEventListener(
-      "resize",
-      updateSection
-    );
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
 
     return () => {
-      window.removeEventListener(
-        "scroll",
-        updateSection
-      );
-
-      window.removeEventListener(
-        "resize",
-        updateSection
-      );
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
     };
   }, []);
 
   return (
     <>
-      {/* =====================================================
-          MAIN PROGRESS TRACK
-      ===================================================== */}
-
+      {/* Top progress track */}
       <div
         style={{
           position: "fixed",
           top: 0,
           left: 0,
           width: "100%",
-          height: "4px",
-
+          height: "3.5px",
           zIndex: 99999,
-
           pointerEvents: "none",
-
-          background:
-            "rgba(255,255,255,0.12)",
+          background: "rgba(255,255,255,0.08)",
         }}
       >
-
-        {/* =================================================
-            ACTUAL SCROLL PROGRESS
-        ================================================= */}
-
         <motion.div
           style={{
             position: "absolute",
-
             top: 0,
             left: 0,
-
             width: "100%",
             height: "100%",
-
-            transformOrigin: "left center",
-
+            transformOrigin: "0% 50%",
             scaleX: progress,
-
-            background:
-              "linear-gradient(90deg, #1B96FF 0%, #0176D3 55%, #FE9339 100%)",
-
-            boxShadow:
-              "0 0 10px rgba(27,150,255,0.75)",
-
+            background: "linear-gradient(90deg, #1B96FF 0%, #0176D3 55%, #FE9339 100%)",
+            boxShadow: "0 0 12px rgba(27,150,255,0.7)",
             willChange: "transform",
           }}
         />
-
       </div>
 
-
-      {/* =====================================================
-          STATIC END DOT
-          This follows the scroll position but NEVER
-          independently animates.
-      ===================================================== */}
-
+      {/* Floating Status Pill */}
       <motion.div
-        style={{
-          position: "fixed",
-
-          top: "-2px",
-
-          left: useTransform(
-            progress,
-            [0, 1],
-            ["0%", "100%"]
-          ),
-
-          width: "8px",
-          height: "8px",
-
-          marginLeft: "-4px",
-
-          borderRadius: "50%",
-
-          background: "#FFFFFF",
-
-          boxShadow:
-            "0 0 8px #FFFFFF, 0 0 18px #1B96FF",
-
-          zIndex: 100000,
-
-          pointerEvents: "none",
-
-          willChange: "left",
-        }}
-      />
-
-
-      {/* =====================================================
-          SCROLL STATUS
-          This does NOT move continuously.
-      ===================================================== */}
-
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: -10,
-        }}
-
+        initial={false}
         animate={{
           opacity: showStatus ? 1 : 0,
-          y: showStatus ? 0 : -10,
+          y: showStatus ? 0 : -8,
         }}
-
-        transition={{
-          duration: 0.25,
-        }}
-
+        transition={{ duration: 0.2 }}
         style={{
           position: "fixed",
-
-          top: "70px",
-
+          top: "68px",
           right: "20px",
-
           zIndex: 9998,
-
           pointerEvents: "none",
-
           display: "flex",
-
           alignItems: "center",
-
           gap: "8px",
-
-          padding:
-            "8px 12px",
-
-          borderRadius:
-            "999px",
-
-          background:
-            "rgba(3,45,96,0.88)",
-
-          border:
-            "1px solid rgba(125,211,252,0.2)",
-
-          backdropFilter:
-            "blur(12px)",
-
-          WebkitBackdropFilter:
-            "blur(12px)",
-
-          boxShadow:
-            "0 8px 25px rgba(0,0,0,0.2)",
-
+          padding: "6px 12px",
+          borderRadius: "999px",
+          background: "rgba(3, 45, 96, 0.88)",
+          border: "1px solid rgba(125, 211, 252, 0.25)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
           color: "#FFFFFF",
-
-          fontSize: "10px",
-
-          fontWeight: 700,
-
-          whiteSpace: "nowrap",
+          fontSize: "11px",
+          fontWeight: 600,
+          willChange: "transform, opacity",
         }}
       >
-
-        <Cloud
-          size={15}
-          color="#7DD3FC"
-        />
-
-        <span
-          style={{
-            color:
-              "rgba(255,255,255,0.75)",
-          }}
-        >
-          {currentSection}
-        </span>
-
+        <Cloud size={14} color="#7DD3FC" />
+        <span style={{ color: "rgba(255,255,255,0.85)" }}>{currentSection}</span>
         <span
           style={{
             width: "1px",
-            height: "12px",
-            background:
-              "rgba(255,255,255,0.2)",
+            height: "10px",
+            background: "rgba(255,255,255,0.2)",
           }}
         />
-
-        <span
-          style={{
-            color: "#7DD3FC",
-            minWidth: "28px",
-            textAlign: "right",
-          }}
-        >
+        <span style={{ color: "#7DD3FC", minWidth: "26px", textAlign: "right" }}>
           {percentage}%
         </span>
-
       </motion.div>
-
-
-      {/* =====================================================
-          MOBILE
-      ===================================================== */}
-
-      <style>{`
-
-        @media (max-width: 600px) {
-
-          .scroll-status {
-            right: 10px;
-            top: 65px;
-          }
-
-        }
-
-      `}</style>
     </>
   );
 };

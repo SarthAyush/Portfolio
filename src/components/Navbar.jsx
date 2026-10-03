@@ -10,20 +10,20 @@ import {
 } from "lucide-react";
 import { Link } from "react-scroll";
 
+const navLinks = [
+  "Home",
+  "About",
+  "Skills",
+  "Experience",
+  "Projects",
+  "Gallery",
+  "Contact",
+];
+
 const Navbar = ({ darkMode, setDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-
-  const navLinks = [
-    "Home",
-    "About",
-    "Skills",
-    "Experience",
-    "Projects",
-    "Gallery",
-    "Contact",
-  ];
 
   /* =========================================================
      SCROLL DETECTION
@@ -51,49 +51,36 @@ const Navbar = ({ darkMode, setDarkMode }) => {
   ========================================================= */
 
   useEffect(() => {
-    const sectionIds = navLinks.map((link) =>
-      link.toLowerCase()
-    );
+    const sectionIds = navLinks.map((link) => link.toLowerCase());
+    let rafId = null;
 
     const handleSectionDetection = () => {
-      const scrollPosition =
-        window.scrollY +
-        window.innerHeight * 0.3;
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const scrollPosition = window.scrollY + window.innerHeight * 0.3;
+        let current = "home";
 
-      let current = "home";
-
-      sectionIds.forEach((id) => {
-        const section =
-          document.getElementById(id);
-
-        if (!section) return;
-
-        if (
-          scrollPosition >=
-          section.offsetTop
-        ) {
-          current = id;
+        for (let i = sectionIds.length - 1; i >= 0; i--) {
+          const id = sectionIds[i];
+          const section = document.getElementById(id);
+          if (section && scrollPosition >= section.offsetTop) {
+            current = id;
+            break;
+          }
         }
+        setActiveSection(current);
       });
-
-      setActiveSection(current);
     };
 
+    window.addEventListener("scroll", handleSectionDetection, { passive: true });
     handleSectionDetection();
 
-    window.addEventListener(
-      "scroll",
-      handleSectionDetection,
-      { passive: true }
-    );
-
     return () => {
-      window.removeEventListener(
-        "scroll",
-        handleSectionDetection
-      );
+      window.removeEventListener("scroll", handleSectionDetection);
+      if (rafId) cancelAnimationFrame(rafId);
     };
-  });
+  }, []);
 
 
   /* =========================================================

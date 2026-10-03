@@ -58,20 +58,27 @@ const About = () => {
     damping: 25,
   });
 
+  const rafId = useRef(null);
+
   const handleMouseMove = (e) => {
     if (!cardRef.current) return;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
 
-    const rect = cardRef.current.getBoundingClientRect();
-
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-    mouseX.set(x);
-    mouseY.set(y);
+    if (rafId.current) return;
+    rafId.current = requestAnimationFrame(() => {
+      rafId.current = null;
+      if (!cardRef.current) return;
+      const rect = cardRef.current.getBoundingClientRect();
+      const x = (clientX - rect.left) / rect.width - 0.5;
+      const y = (clientY - rect.top) / rect.height - 0.5;
+      mouseX.set(x);
+      mouseY.set(y);
+    });
   };
 
   const handleMouseLeave = () => {
+    if (rafId.current) cancelAnimationFrame(rafId.current);
     mouseX.set(0);
     mouseY.set(0);
   };
@@ -93,7 +100,7 @@ const About = () => {
       ================================================= */}
 
       <div className="about-particles">
-        {[...Array(16)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <span key={i} className={`about-particle about-particle-${i}`} />
         ))}
       </div>
@@ -226,8 +233,9 @@ const About = () => {
 
             <div className="image-ring-inner">
               <motion.img
-                src="/images/headshot.png"
+                src="/images/headshot.webp"
                 alt="Sarthak Saxena"
+                loading="lazy"
                 whileHover={{
                   scale: 1.05,
                 }}

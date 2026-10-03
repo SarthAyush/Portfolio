@@ -86,38 +86,32 @@ const Projects = () => {
   );
 
 
+  const rafId = useRef(null);
+
   const handleMouseMove = (e) => {
-
     if (!cardRef.current) return;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
 
-    const rect =
-      cardRef.current.getBoundingClientRect();
-
-    const x =
-      (e.clientX - rect.left) /
-        rect.width -
-      0.5;
-
-    const y =
-      (e.clientY - rect.top) /
-        rect.height -
-      0.5;
-
-    mouseX.set(x);
-    mouseY.set(y);
+    if (rafId.current) return;
+    rafId.current = requestAnimationFrame(() => {
+      rafId.current = null;
+      if (!cardRef.current) return;
+      const rect = cardRef.current.getBoundingClientRect();
+      const x = (clientX - rect.left) / rect.width - 0.5;
+      const y = (clientY - rect.top) / rect.height - 0.5;
+      mouseX.set(x);
+      mouseY.set(y);
+    });
   };
-
 
   const handleMouseLeave = () => {
-
+    if (rafId.current) cancelAnimationFrame(rafId.current);
     mouseX.set(0);
     mouseY.set(0);
-
   };
 
-
   return (
-
     <section
       id="projects"
       className="projects-section"
@@ -133,20 +127,17 @@ const Projects = () => {
 
       <div className="projects-grid" />
 
-
       {/* =================================================
           PARTICLES
       ================================================= */}
 
       <div className="projects-particles">
 
-        {[...Array(18)].map((_, i) => (
-
+        {[...Array(8)].map((_, i) => (
           <span
             key={i}
             className={`project-particle project-particle-${i}`}
           />
-
         ))}
 
       </div>

@@ -32,7 +32,7 @@ const Loader = () => {
 
       <div className="loader-particles">
 
-        {[...Array(20)].map((_, i) => (
+        {[...Array(6)].map((_, i) => (
           <span
             key={i}
             className={`loader-particle loader-particle-${i}`}

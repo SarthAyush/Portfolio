@@ -32,12 +32,22 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!form.name || !form.email || !form.message) return;
+
+    // Direct and reliable client-side mail action
+    const mailtoUrl = `mailto:sarthak@astreait.com?subject=Portfolio Message from ${encodeURIComponent(
+      form.name
+    )}&body=${encodeURIComponent(form.message)}%0A%0A---%0AFrom: ${encodeURIComponent(
+      form.name
+    )}%0AEmail: ${encodeURIComponent(form.email)}`;
+
+    window.open(mailtoUrl, "_blank");
 
     setSent(true);
 
     setTimeout(() => {
       setSent(false);
-    }, 3500);
+    }, 4500);
 
     setForm({
       name: "",
@@ -103,7 +113,7 @@ const Contact = () => {
 
       <div className="contact-particles">
 
-        {[...Array(16)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <span
             key={i}
             className={`contact-particle contact-particle-${i}`}

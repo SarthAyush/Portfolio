@@ -54,7 +54,7 @@ const Experience = () => {
 
       {/* Floating particles */}
       <div className="experience-particles">
-        {[...Array(18)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <span key={i} className={`particle particle-${i}`} />
         ))}
       </div>

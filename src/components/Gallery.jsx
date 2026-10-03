@@ -515,78 +515,46 @@ const Gallery = () => {
   ======================================================= */
 
   const images = [
-
     {
-      src: "/images/Arena.png",
-
+      src: "/images/arena.webp",
       caption: "The Arena",
-
       description:
         "A wide shot of the Agentforce World Tour Mumbai venue, where hundreds of Trailblazers gathered for a day of AI-powered innovation.",
-
       size: "large",
-
       position: "center",
-
       icon: <Trophy size={15} />,
-
       number: "01",
     },
-
-
     {
-      src: "/images/with trophy.png",
-
+      src: "/images/with-trophy.webp",
       caption: "Finalist Moment",
-
       description:
         "Celebrating as a Hackathon Finalist, the moment the hard work on Agentforce and Data Cloud paid off.",
-
       size: "tall",
-
       position: "center",
-
       icon: <Award size={15} />,
-
       number: "02",
     },
-
-
     {
-      src: "/images/at Stage.png",
-
+      src: "/images/at-stage.webp",
       caption: "Pitching the Solution",
-
       description:
         "Presenting our Agentforce-powered retail store expansion solution on stage during the Hackathon finals.",
-
       size: "medium",
-
       position: "center",
-
       icon: <Mic size={15} />,
-
       number: "03",
     },
-
-
     {
-      src: "/images/Community Session.jpg",
-
+      src: "/images/community-session.webp",
       caption: "Community Session",
-
       description:
         "Speaking at a Trailblazer Community Session, sharing insights on Agentforce and Data Cloud with fellow developers.",
-
       size: "medium",
-
       position: "center",
-
       icon: <Mic size={15} />,
-
       number: "04",
     },
-
   ];
 
 
@@ -881,24 +849,19 @@ const Gallery = () => {
               {/* IMAGE */}
 
               <motion.img
-
                 src={img.src}
-
                 alt={img.caption}
-
+                loading="lazy"
                 style={{
                   objectPosition:
                     img.position ||
                     "center",
                 }}
-
                 whileHover={{
                   scale: 1.08,
                 }}
-
                 transition={{
                   duration: 0.7,
-
                   ease:
                     "easeOut",
                 }}

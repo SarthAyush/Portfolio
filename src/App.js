@@ -15,10 +15,14 @@ import ScrollProgress from "./components/ScrollProgress";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem("portfolio_theme");
+    if (saved) return saved === "dark";
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1800);
+    const timer = setTimeout(() => setLoading(false), 800);
     return () => clearTimeout(timer);
   }, []);
 
@@ -27,6 +31,7 @@ function App() {
       "data-theme",
       darkMode ? "dark" : "light",
     );
+    localStorage.setItem("portfolio_theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
   return (

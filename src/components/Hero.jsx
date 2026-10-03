@@ -27,13 +27,21 @@ const Hero = () => {
     damping: 25,
   });
 
+  const rafId = useRef(null);
+
   const handleMouseMove = (e) => {
     if (!heroRef.current) return;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
 
-    const rect = heroRef.current.getBoundingClientRect();
-
-    mouseX.set(e.clientX - rect.left);
-    mouseY.set(e.clientY - rect.top);
+    if (rafId.current) return;
+    rafId.current = requestAnimationFrame(() => {
+      rafId.current = null;
+      if (!heroRef.current) return;
+      const rect = heroRef.current.getBoundingClientRect();
+      mouseX.set(clientX - rect.left);
+      mouseY.set(clientY - rect.top);
+    });
   };
 
   return (
@@ -72,7 +80,7 @@ const Hero = () => {
 
       <div className="hero-particles">
 
-        {[...Array(35)].map((_, i) => (
+        {[...Array(10)].map((_, i) => (
           <span
             key={i}
             className={`hero-particle hero-particle-${i}`}
