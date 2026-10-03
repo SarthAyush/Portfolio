@@ -1,109 +1,511 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import {
+  Cloud,
+  ArrowDown,
+  Sparkles,
   Download,
-  Award,
-  Trophy,
-  ArrowRight,
-  Brain,
+  ExternalLink,
   Code2,
+  Brain,
+  Database,
 } from "lucide-react";
-import { Link } from "react-scroll";
+import "../styles/Hero.css";
 
 const Hero = () => {
+  const heroRef = useRef(null);
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const smoothX = useSpring(mouseX, {
+    stiffness: 80,
+    damping: 25,
+  });
+
+  const smoothY = useSpring(mouseY, {
+    stiffness: 80,
+    damping: 25,
+  });
+
+  const rafId = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (!heroRef.current) return;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+
+    if (rafId.current) return;
+    rafId.current = requestAnimationFrame(() => {
+      rafId.current = null;
+      if (!heroRef.current) return;
+      const rect = heroRef.current.getBoundingClientRect();
+      mouseX.set(clientX - rect.left);
+      mouseY.set(clientY - rect.top);
+    });
+  };
+
   return (
-    <section id="home" className="hero-section">
-      {/* Ambient background glows */}
-      <div className="hero-bg-mesh" />
-      <div className="hero-grid-overlay" />
+    <section
+      id="home"
+      ref={heroRef}
+      className="hero-section"
+      onMouseMove={handleMouseMove}
+    >
+
+      {/* ==================================================
+          BACKGROUND
+      ================================================== */}
+
+      <div className="hero-aurora hero-aurora-one" />
+      <div className="hero-aurora hero-aurora-two" />
+      <div className="hero-aurora hero-aurora-three" />
+
+      {/* Grid */}
+
+      <div className="hero-grid" />
+
+      {/* Mouse spotlight */}
 
       <motion.div
-        className="hero-content"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      >
-        {/* Availability Status */}
-        <div className="hero-status-pill">
-          <span className="status-dot-pulse" />
-          <span>Available for Developer Opportunities</span>
-        </div>
+        className="hero-mouse-light"
+        style={{
+          left: smoothX,
+          top: smoothY,
+        }}
+      />
 
-        {/* Main Heading */}
-        <h1 className="hero-headline">
-          Hi, I'm <span className="gradient-text">Sarthak Saxena</span>
-        </h1>
+      {/* ==================================================
+          FLOATING PARTICLES
+      ================================================== */}
 
-        {/* Subtitle / Role */}
-        <div className="hero-subtitle">
-          <span>Salesforce Developer</span>
+      <div className="hero-particles">
+
+        {[...Array(10)].map((_, i) => (
+          <span
+            key={i}
+            className={`hero-particle hero-particle-${i}`}
+          />
+        ))}
+
+      </div>
+
+
+      {/* ==================================================
+          FLOATING CLOUDS
+      ================================================== */}
+
+      {[...Array(4)].map((_, i) => (
+
+        <motion.div
+          key={`cloud-${i}`}
+          className={`hero-cloud hero-cloud-${i}`}
+          animate={{
+            x: [0, 40, 0],
+            y: [0, -20, 0],
+            rotate: [0, 2, 0],
+          }}
+          transition={{
+            duration: 7 + i * 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <Cloud size={70 + i * 25} />
+        </motion.div>
+
+      ))}
+
+
+      {/* ==================================================
+          MAIN CONTENT
+      ================================================== */}
+
+      <div className="hero-content">
+
+        {/* Small badge */}
+
+        <motion.div
+          className="hero-badge"
+          initial={{
+            opacity: 0,
+            y: 20,
+            scale: 0.9,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            scale: 1,
+          }}
+          transition={{
+            duration: 0.7,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+        >
+
+          <span className="hero-badge-dot" />
+
+          <Sparkles size={14} />
+
+          <span>
+            SALESFORCE DEVELOPER
+          </span>
+
+        </motion.div>
+
+
+        {/* ==================================================
+            PROFILE IMAGE
+        ================================================== */}
+
+        <motion.div
+          className="hero-profile"
+          initial={{
+            opacity: 0,
+            scale: 0.5,
+            y: -30,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 1,
+            delay: 0.15,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          whileHover={{
+            scale: 1.04,
+          }}
+        >
+
+          {/* Outer rotating ring */}
+
+          <motion.div
+            className="hero-profile-ring"
+            animate={{
+              rotate: 360,
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+
+          {/* Glow */}
+
+          <div className="hero-profile-glow" />
+
+          {/* Image */}
+
+          <div className="hero-profile-image">
+
+            <img
+              src="/images/headshot.png"
+              alt="Sarthak Saxena"
+            />
+
+          </div>
+
+
+          {/* Floating Salesforce badge */}
+
+          <motion.div
+            className="hero-tech-badge hero-salesforce-badge"
+            animate={{
+              y: [0, -8, 0],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <Cloud size={15} />
+            Salesforce
+          </motion.div>
+
+
+          {/* Floating AI badge */}
+
+          <motion.div
+            className="hero-tech-badge hero-ai-badge"
+            animate={{
+              y: [0, 8, 0],
+            }}
+            transition={{
+              duration: 3.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <Brain size={15} />
+            Agentforce
+          </motion.div>
+
+        </motion.div>
+
+
+        {/* ==================================================
+            WELCOME TEXT
+        ================================================== */}
+
+        <motion.p
+          className="hero-welcome"
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            delay: 0.35,
+            duration: 0.7,
+          }}
+        >
+          WELCOME TO MY TRAILHEAD
+        </motion.p>
+
+
+        {/* ==================================================
+            NAME
+        ================================================== */}
+
+        <motion.h1
+          className="hero-title"
+          initial={{
+            opacity: 0,
+            y: 35,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            delay: 0.45,
+            duration: 0.8,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+        >
+
+          Hi, I'm
+
+          <span>
+            Sarthak Saxena
+          </span>
+
+        </motion.h1>
+
+
+        {/* ==================================================
+            ROLE
+        ================================================== */}
+
+        <motion.h2
+          className="hero-role"
+          initial={{
+            opacity: 0,
+            y: 25,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            delay: 0.6,
+            duration: 0.7,
+          }}
+        >
+
+          Salesforce Developer
+          <span className="hero-at">
+            @
+          </span>
+          Astrea IT Services
+
+        </motion.h2>
+
+
+        {/* ==================================================
+            DESCRIPTION
+        ================================================== */}
+
+        <motion.p
+          className="hero-description"
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            delay: 0.75,
+            duration: 0.7,
+          }}
+        >
+
+          3X Certified
           <span>•</span>
-          <span className="company">Astrea IT Services</span>
-        </div>
+          Agentforce Specialist
+          <span>•</span>
+          Platform App Builder
+          <span>•</span>
+          Platform Developer I
 
-        {/* Lead Summary */}
-        <p className="hero-lead">
-          Specializing in <strong>Apex</strong>, <strong>Lightning Web Components (LWC)</strong>, 
-          <strong> Agentforce</strong>, and <strong>Data Cloud</strong>. Turning complex enterprise 
-          workflows into scalable, automated, and intelligent cloud experiences.
-        </p>
+        </motion.p>
 
-        {/* CTA Buttons */}
-        <div className="hero-cta-group">
-          <Link
-            to="projects"
-            smooth={true}
-            duration={500}
-            offset={-70}
-            className="btn-primary"
+
+        {/* ==================================================
+            SKILL MINI CARDS
+        ================================================== */}
+
+        <motion.div
+          className="hero-skills"
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            delay: 0.85,
+            duration: 0.7,
+          }}
+        >
+
+          <div>
+            <Code2 size={16} />
+            Apex & LWC
+          </div>
+
+          <div>
+            <Brain size={16} />
+            Agentforce
+          </div>
+
+          <div>
+            <Database size={16} />
+            Data Cloud
+          </div>
+
+        </motion.div>
+
+
+        {/* ==================================================
+            BUTTONS
+        ================================================== */}
+
+        <motion.div
+          className="hero-buttons"
+          initial={{
+            opacity: 0,
+            y: 25,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            delay: 1,
+            duration: 0.7,
+          }}
+        >
+
+          {/* Projects */}
+
+          <motion.a
+            href="#projects"
+            className="hero-btn hero-btn-primary"
+            whileHover={{
+              scale: 1.06,
+              y: -3,
+            }}
+            whileTap={{
+              scale: 0.96,
+            }}
           >
-            <span>Featured Projects</span>
-            <ArrowRight size={17} />
-          </Link>
 
-          <a
+            <span>
+              View Projects
+            </span>
+
+            <ExternalLink size={17} />
+
+          </motion.a>
+
+
+          {/* Resume */}
+
+          <motion.a
             href="/Sarthak_Saxena_Resume_A.pdf"
-            download="Sarthak_Saxena_Resume.pdf"
-            className="btn-secondary"
+            download
+            className="hero-btn hero-btn-secondary"
+            whileHover={{
+              scale: 1.06,
+              y: -3,
+            }}
+            whileTap={{
+              scale: 0.96,
+            }}
           >
+
             <Download size={17} />
-            <span>Download Resume</span>
-          </a>
 
-          <Link
-            to="contact"
-            smooth={true}
-            duration={500}
-            offset={-70}
-            className="btn-secondary"
-          >
-            <span>Contact Me</span>
-          </Link>
-        </div>
+            <span>
+              Download Resume
+            </span>
 
-        {/* Credentials Badges */}
-        <div className="hero-badges-row">
-          <div className="hero-badge-item">
-            <Award size={16} color="var(--primary)" />
-            <span>3X Salesforce Certified</span>
-          </div>
+          </motion.a>
 
-          <div className="hero-badge-item">
-            <Trophy size={16} color="#f59e0b" />
-            <span>5X Trailhead Ranger</span>
-          </div>
+        </motion.div>
 
-          <div className="hero-badge-item">
-            <Brain size={16} color="#8b5cf6" />
-            <span>Agentforce Specialist</span>
-          </div>
+      </div>
 
-          <div className="hero-badge-item">
-            <Code2 size={16} color="#10b981" />
-            <span>AWT Mumbai Finalist</span>
-          </div>
-        </div>
-      </motion.div>
+
+      {/* ==================================================
+          SCROLL INDICATOR
+      ================================================== */}
+
+      <motion.a
+        href="#about"
+        className="hero-scroll"
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+        }}
+        transition={{
+          delay: 1.5,
+        }}
+      >
+
+        <span>
+          SCROLL TO EXPLORE
+        </span>
+
+        <motion.div
+          animate={{
+            y: [0, 7, 0],
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+          }}
+        >
+          <ArrowDown size={17} />
+        </motion.div>
+
+      </motion.a>
+
     </section>
   );
 };
